@@ -72,7 +72,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 	fmt.Println(limit)
 	fmt.Println(skip)
 	fmt.Println(search)
-	query := "Select * from books where title like '%$1%' offset %2 limit %3"
+	query := "Select * from books where title like '%$1%' offset $2 limit $3"
 
 	rows, err := db.Query(query, skip, limit, search)
 
