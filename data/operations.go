@@ -7,6 +7,7 @@ import (
 
 	"github.com/insight001/OBooks/config"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq" //Databse config
 )
 
 //Database operations will be performed here
@@ -38,7 +39,7 @@ type Books struct {
 //CreateBook ...
 func CreateBook(book *BookData) bool {
 
-	db, err := sql.Open("petextmt", goDotEnvVariable("DB_URL"))
+	db, err := sql.Open("postgres", goDotEnvVariable("DB_URL"))
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
 	}
