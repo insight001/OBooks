@@ -12,7 +12,7 @@ import (
 
 //Database operations will be performed here
 
-func goDotEnvVariable(key string) string {
+func goDotEnvVariable() string {
 
 	// load .env file
 	if err := godotenv.Load(); err != nil {
@@ -39,7 +39,7 @@ type Books struct {
 //CreateBook ...
 func CreateBook(book *BookData) bool {
 
-	db, err := sql.Open("postgres", goDotEnvVariable("DB_URL"))
+	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
 	}
@@ -59,7 +59,7 @@ func CreateBook(book *BookData) bool {
 //GetBooks returns all books
 func GetBooks(skip, limit int, search string) []BookData {
 
-	db, err := sql.Open("postgres", goDotEnvVariable("DB_URL"))
+	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
 	}
