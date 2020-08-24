@@ -63,7 +63,7 @@ func createBook(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var dataBook = data.BookData{ID: r.FormValue("BookID"), Title: r.FormValue("Title")}
+	var dataBook = data.BookData{Title: r.FormValue("Title"), Description: r.FormValue("Description"), Authors: r.FormValue("Authors"), ISBN: r.FormValue("ISBN")}
 
 	ok := data.CreateBook(&dataBook)
 
