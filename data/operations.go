@@ -87,7 +87,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 	for rows.Next() {
 		var book BookData
 
-		err = rows.Scan(&book.ID, &book.Title, &book.Authors, &book.ISBN, &book.Description)
+		err = rows.Scan(&book.Title, &book.Authors, &book.ISBN, &book.Description, &book.ID)
 		if err != nil {
 			// handle this error
 			panic(err)
@@ -125,7 +125,15 @@ func GetBook(id int) BookData {
 
 	var book BookData
 
-	err = rows.Scan(&book.ID, &book.Title, &book.Authors, &book.ISBN, &book.Description)
+	var bookID int
+	var title, authours, isbn, description string
+	err = rows.Scan(&title, &authours, &isbn, &description, &bookID)
+
+	book.Description = description
+	book.Authors = authours
+	book.ID = bookID
+	book.ISBN = isbn
+	book.Title = title
 
 	// get any error encountered during iteration
 	err = rows.Err()

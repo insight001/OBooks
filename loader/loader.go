@@ -39,7 +39,10 @@ func get() []BookData {
 
 	// Convert response body to an array of book struct
 	var response apiResponse
-	json.Unmarshal(bodyBytes, &response)
+	err = json.Unmarshal(bodyBytes, &response)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	fmt.Printf("API Response as struct %+v\n", string(bodyBytes))
 
 	return response.results
@@ -60,6 +63,7 @@ func goDotEnvVariable() string {
 func BulkInsert() error {
 
 	unsavedRows := get()
+	fmt.Println("Inside the bulk")
 	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
