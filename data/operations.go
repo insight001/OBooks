@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-	"os"
 
+	"github.com/insight001/OBooks/config"
 	"github.com/joho/godotenv"
 )
 
@@ -14,14 +14,13 @@ import (
 func goDotEnvVariable(key string) string {
 
 	// load .env file
-	err := godotenv.Load(".env")
-
-	if err != nil {
-		log.Fatalf("Error loading .env file")
-
+	if err := godotenv.Load(); err != nil {
+		log.Print("No .env file found")
 	}
 
-	return os.Getenv(key)
+	conf := config.New()
+
+	return conf.Database.URL
 }
 
 //BookStore contains method definition for the operations  performed on books
