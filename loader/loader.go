@@ -63,7 +63,8 @@ func goDotEnvVariable() string {
 func BulkInsert() error {
 
 	unsavedRows := get()
-	fmt.Println("Inside the bulk")
+
+	fmt.Println(unsavedRows)
 	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
