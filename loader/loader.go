@@ -53,8 +53,14 @@ func get() []BookData {
 
 	s := make([]BookData, 10)
 	for _, value := range result["results"].([]interface{}) {
-		fmt.Printf("%v", value.(map[string]interface{})["title"])
-		fmt.Printf("%v", value.(map[string]interface{})["description"])
+
+		var book BookData
+		book.Title = value.(map[string]interface{})["title"].(string)
+		book.Description = value.(map[string]interface{})["description"].(string)
+		book.Authors = value.(map[string]interface{})["authors"].([]string)
+		book.ISBN = value.(map[string]interface{})["isbn"].(string)
+
+		s = append(s, book)
 
 	}
 
