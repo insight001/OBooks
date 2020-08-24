@@ -5,8 +5,29 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/gorilla/mux"
+
 	"github.com/insight001/OBooks/data"
 )
+
+//GetBookByID ..
+func GetBookByID(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	id := params["id"]
+
+	responseData := data.GetBook(id)
+	b, err := json.Marshal(responseData)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(`{"error": "error marshalling data"}`))
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
+	return
+}
 
 //GetBooks ...
 func GetBooks(w http.ResponseWriter, r *http.Request) {

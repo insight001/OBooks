@@ -5,8 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
 	"github.com/insight001/OBooks/data"
+	"github.com/insight001/OBooks/loader"
+
+	"github.com/gorilla/mux"
 )
 
 var (
@@ -14,6 +16,7 @@ var (
 )
 
 func main() {
+	loader.BulkInsert()
 	r := mux.NewRouter()
 	log.Println("bookdata api")
 	api := r.PathPrefix("/api/v1").Subrouter()
@@ -22,6 +25,7 @@ func main() {
 		log.Println("Got here")
 	})
 	api.HandleFunc("/books", GetBooks).Methods(http.MethodGet)
+	api.HandleFunc("/books/{id}", GetBookByID).Methods(http.MethodGet)
 	api.HandleFunc("/book", createBook).Methods(http.MethodPost)
 	log.Fatalln(http.ListenAndServe(":8080", r))
 }

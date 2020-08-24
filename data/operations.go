@@ -103,3 +103,35 @@ func GetBooks(skip, limit int, search string) []BookData {
 	fmt.Println("getting books")
 	return store
 }
+
+//GetBook returns all books
+func GetBook(id int) BookData {
+
+	db, err := sql.Open("postgres", goDotEnvVariable())
+	if err != nil {
+		log.Fatal("Failed to open a DB connection: ", err)
+	}
+	defer db.Close()
+
+	query := "Select * from books where id = $1"
+
+	rows, err := db.Query(query, id)
+
+	if err != nil {
+		// Do something
+		panic(err)
+	}
+	defer rows.Close()
+
+	var book BookData
+
+	err = rows.Scan(&book.ID, &book.Title, &book.Authors, &book.ISBN, &book.Description)
+
+	// get any error encountered during iteration
+	err = rows.Err()
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("getting books")
+	return book
+}

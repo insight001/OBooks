@@ -33,14 +33,14 @@ func get() []BookData {
 	if err != nil {
 		log.Fatalln(err)
 	}
-
+	fmt.Println("Got here")
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
 	// Convert response body to an array of book struct
 	var response apiResponse
 	json.Unmarshal(bodyBytes, &response)
-	fmt.Printf("API Response as struct %+v\n", response.results)
+	fmt.Printf("API Response as struct %+v\n", string(bodyBytes))
 
 	return response.results
 }
