@@ -13,13 +13,14 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	limit, err := getLimitParam(r)
 	skip, err := getSkipParam(r)
+	search, err := getSearchParam(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "invalid datatype for parameter"}`))
 		return
 	}
 
-	responseData := data.GetBooks(skip, limit)
+	responseData := data.GetBooks(skip, limit, search)
 	b, err := json.Marshal(responseData)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -66,6 +67,14 @@ func getLimitParam(r *http.Request) (int, error) {
 		limit = val
 	}
 	return limit, nil
+}
+
+func getSearchParam(r *http.Request) (string, error) {
+
+	queryParams := r.URL.Query()
+	l := queryParams.Get("limit")
+
+	return l, nil
 }
 
 func getSkipParam(r *http.Request) (int, error) {
