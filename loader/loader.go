@@ -22,8 +22,12 @@ type BookData struct {
 	Description string   `json:"description"`
 }
 
-type apiResponse struct {
-	results []BookData
+type bookResponse struct {
+	id          string
+	authors     []string
+	description string
+	isbn        string
+	title       string
 }
 
 //Get returns the book
@@ -38,14 +42,21 @@ func get() []BookData {
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
 	// Convert response body to an array of book struct
-	var response apiResponse
-	err = json.Unmarshal(bodyBytes, &response)
+	var result map[string]interface{}
+
+	response := result["results"].(map[string]interface{})
+
+	err = json.Unmarshal(bodyBytes, &result)
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Printf("API Response as struct %+v\n", string(bodyBytes))
 
-	return response.results
+	s := make([]BookData, 10)
+	for key, value := range response {
+		fmt.Println(key, value.(string))
+	}
+
+	return s
 }
 func goDotEnvVariable() string {
 
