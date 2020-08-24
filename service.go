@@ -16,8 +16,8 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
 	id := params["id"]
-
-	responseData := data.GetBook(id)
+	val, err := strconv.Atoi(id)
+	responseData := data.GetBook(val)
 	b, err := json.Marshal(responseData)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
