@@ -44,7 +44,7 @@ func get() []BookData {
 	// Convert response body to an array of book struct
 	var result map[string]interface{}
 
-	response := result["results"].(map[string]interface{})
+	//response := result["results"].(map[string][]interface{})
 
 	err = json.Unmarshal(bodyBytes, &result)
 	if err != nil {
@@ -52,8 +52,10 @@ func get() []BookData {
 	}
 
 	s := make([]BookData, 10)
-	for key, value := range response {
-		fmt.Println(key, value.(string))
+	for _, value := range result["results"].([]interface{}) {
+		fmt.Printf("%v", value.(map[string]interface{})["title"])
+		fmt.Printf("%v", value.(map[string]interface{})["description"])
+
 	}
 
 	return s
