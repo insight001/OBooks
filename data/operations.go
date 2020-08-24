@@ -68,6 +68,10 @@ func GetBooks(skip, limit int, search string) []BookData {
 	if limit == 0 {
 		limit = 10
 	}
+
+	fmt.Println(limit)
+	fmt.Println(skip)
+	fmt.Println(search)
 	query := "Select * from books offset $0"
 
 	if search != "" {
