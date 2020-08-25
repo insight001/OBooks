@@ -82,7 +82,12 @@ func GetBooks(skip, limit int, search string) []BookData {
 	}
 	defer rows.Close()
 
-	store := make([]BookData, limit)
+	count := 0
+	for rows.Next() {
+		count = count + 1 //Get the count of the returned rows
+	}
+
+	store := make([]BookData, count)
 
 	for rows.Next() {
 		var book BookData
@@ -92,7 +97,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 			// handle this error
 			panic(err)
 		}
-		fmt.Println(&book.Description)
+		fmt.Println(book.Description)
 		store = append(store, book)
 	}
 	// get any error encountered during iteration
