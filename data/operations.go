@@ -92,7 +92,7 @@ func GetBooks(skip int, limit int, search string) ([]BookData, int) {
 			// handle this error
 			panic(err)
 		}
-		fmt.Println("Title:", book.Title)
+
 		store = append(store, book)
 	}
 
@@ -106,7 +106,6 @@ func GetBooks(skip int, limit int, search string) ([]BookData, int) {
 
 	err = db.QueryRow("SELECT COUNT(*) FROM books").Scan(&count)
 
-	fmt.Println("store:", store)
 	return store, count
 }
 

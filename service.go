@@ -72,6 +72,9 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 
 	responseData, count := data.GetBooks(skip, limit, search)
 
+	if limit == 0 {
+		limit = 10
+	}
 	var apiResponse ListAPIResponse
 	apiResponse.Data = responseData
 	apiResponse.Success = true
@@ -131,7 +134,7 @@ func getLimitParam(r *http.Request) (int, error) {
 func getSearchParam(r *http.Request) (string, error) {
 
 	queryParams := r.URL.Query()
-	l := queryParams.Get("limit")
+	l := queryParams.Get("search")
 
 	return l, nil
 }
@@ -139,7 +142,7 @@ func getSearchParam(r *http.Request) (string, error) {
 func getSkipParam(r *http.Request) (int, error) {
 	skip := 0
 	queryParams := r.URL.Query()
-	l := queryParams.Get("skip")
+	l := queryParams.Get("offset")
 	if l != "" {
 		val, err := strconv.Atoi(l)
 		if err != nil {
