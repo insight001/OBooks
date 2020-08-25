@@ -33,7 +33,7 @@ type bookResponse struct {
 //Get returns the book
 func get() []BookData {
 	fmt.Println("1. Performing Http Get...")
-	resp, err := http.Get("https://learning.oreilly.com/api/v2/search/?fields=description&fields=title&fields=isbn&fields=authors&limit=10")
+	resp, err := http.Get("https://learning.oreilly.com/api/v2/search/?fields=title&fields=isbn&fields=authors&limit=10")
 	if err != nil {
 		log.Fatalln(err)
 	}
