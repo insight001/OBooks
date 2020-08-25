@@ -113,15 +113,14 @@ func GetBook(id int) BookData {
 	}
 	defer db.Close()
 
-	query := "Select id, title, authors, description, isbn from books where id = $1"
+	query := `Select id, title, authors, description, isbn from books where id=1;`
 
-	rows, err := db.Query(query, id)
+	rows, err := db.Query(query)
 	fmt.Println(id)
 	if err != nil {
 		// Do something
 		panic(err)
 	}
-	defer rows.Close()
 
 	var book BookData
 
