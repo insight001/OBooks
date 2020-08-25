@@ -57,7 +57,7 @@ func CreateBook(book *BookData) bool {
 }
 
 //GetBooks returns all books
-func GetBooks(skip, limit int, search string) []BookData {
+func GetBooks(skip int, limit int, search string) ([]BookData, int) {
 
 	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
@@ -95,14 +95,19 @@ func GetBooks(skip, limit int, search string) []BookData {
 		fmt.Println("Title:", book.Title)
 		store = append(store, book)
 	}
+
 	// get any error encountered during iteration
 	err = rows.Err()
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("getting books")
+
+	var count int
+
+	err = db.QueryRow("SELECT COUNT(*) FROM books").Scan(&count)
+
 	fmt.Println("store:", store)
-	return store
+	return store, count
 }
 
 //GetBook returns all books

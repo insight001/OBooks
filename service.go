@@ -22,6 +22,17 @@ type ListAPIResponse struct {
 	Success bool            `json:"success"`
 	Message string          `json:"message"`
 	Data    []data.BookData `json:"data"`
+	Meta    ResponseMeta    `json:"meta"`
+}
+
+//ResponseMeta ...
+type ResponseMeta struct {
+	CurrentPage  int `json:"current_page"`
+	PreviousPage int `json:"previous_page"`
+	NextPage     int `json:"next_page"`
+	PerPage      int `json:"per_page"`
+	TotalEntries int `json:"total_entries"`
+	TotalPages   int `json:"total_pages"`
 }
 
 //GetBookByID ..
@@ -59,11 +70,15 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	responseData := data.GetBooks(skip, limit, search)
+	responseData, count := data.GetBooks(skip, limit, search)
+
 	var apiResponse ListAPIResponse
 	apiResponse.Data = responseData
 	apiResponse.Success = true
 	apiResponse.Message = "Items retrieved successfully"
+	apiResponse.Meta.TotalEntries = count
+	apiResponse.Meta.PerPage = limit
+	apiResponse.Meta.TotalPages = (count + limit - 1) / limit
 	b, err := json.Marshal(apiResponse)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
