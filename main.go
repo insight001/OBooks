@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/insight001/OBooks/data"
+	"github.com/insight001/OBooks/loader"
 
 	"github.com/gorilla/mux"
 )
@@ -15,7 +16,7 @@ var (
 )
 
 func main() {
-	//loader.BulkInsert()
+	loader.BulkInsert()
 	r := mux.NewRouter()
 	log.Println("bookdata api")
 	api := r.PathPrefix("/api/v1").Subrouter()
