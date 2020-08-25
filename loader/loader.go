@@ -56,7 +56,7 @@ func get() []BookData {
 
 		var book BookData
 		book.Title = value.(map[string]interface{})["title"].(string)
-		book.Description = value.(map[string]interface{})["description"].(string)
+		//book.Description = value.(map[string]interface{})["description"].(string)
 		//book.Authors = value.(map[string]interface{})["authors"].([]string)
 		book.ISBN = value.(map[string]interface{})["isbn"].(string)
 
