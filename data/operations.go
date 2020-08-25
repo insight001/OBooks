@@ -72,7 +72,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 	fmt.Println(limit)
 	fmt.Println(skip)
 	fmt.Println(search)
-	query := "Select * from books where title like '% '||$1||' %' offset $2 limit $3"
+	query := "Select title,authors,isbn, description, id from books where title like '% '||$1||' %' offset $2 limit $3"
 
 	rows, err := db.Query(query, search, skip, limit)
 
@@ -101,6 +101,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 		panic(err)
 	}
 	fmt.Println("getting books")
+	fmt.Println(store)
 	return store
 }
 
@@ -113,10 +114,9 @@ func GetBook(id int) BookData {
 	}
 	defer db.Close()
 
-	query := `Select id, title, authors, description, isbn from books where id=1;`
+	query := `Select id, title, authors, description, isbn from books where id=$1;`
 
-	rows := db.QueryRow(query)
-	fmt.Println(id)
+	rows := db.QueryRow(query, id)
 	if err != nil {
 		// Do something
 		panic(err)
@@ -128,21 +128,16 @@ func GetBook(id int) BookData {
 	var title, authours, isbn, description string
 	err = rows.Scan(&bookID, &title, &authours, &description, &isbn)
 
-	fmt.Println(description)
 	book.Description = description
-	fmt.Println(authours)
 	book.Authors = authours
-	fmt.Println(bookID)
 	book.ID = bookID
-	fmt.Println(isbn)
 	book.ISBN = isbn
-	fmt.Println(title)
 	book.Title = title
 
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("getting books")
-	fmt.Println(book)
+
 	return book
 }
