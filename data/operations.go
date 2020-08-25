@@ -87,6 +87,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 		count = count + 1 //Get the count of the returned rows
 	}
 
+	fmt.Println(count)
 	store := make([]BookData, count)
 
 	for rows.Next() {
