@@ -129,10 +129,15 @@ func GetBook(id int) BookData {
 	var title, authours, isbn, description string
 	err = rows.Scan(&bookID, &title, &authours, &description, &isbn)
 
+	fmt.Println(description)
 	book.Description = description
+	fmt.Println(authours)
 	book.Authors = authours
+	fmt.Println(bookID)
 	book.ID = bookID
+	fmt.Println(isbn)
 	book.ISBN = isbn
+	fmt.Println(title)
 	book.Title = title
 
 	// get any error encountered during iteration
@@ -141,5 +146,6 @@ func GetBook(id int) BookData {
 		panic(err)
 	}
 	fmt.Println("getting books")
+	fmt.Println(book)
 	return book
 }
