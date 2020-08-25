@@ -108,6 +108,7 @@ func BulkInsert() error {
 	stmt := fmt.Sprintf("INSERT INTO books (Title, Authors, ISBN, Description) VALUES %s", strings.Join(valueStrings, ","))
 
 	fmt.Println(stmt)
+	fmt.Println(valueArgs...)
 	_, err = db.Exec(stmt, valueArgs...)
 	return err
 }
