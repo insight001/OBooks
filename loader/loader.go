@@ -83,7 +83,6 @@ func BulkInsert() error {
 
 	unsavedRows := get()
 
-	fmt.Println(unsavedRows)
 	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
@@ -95,14 +94,20 @@ func BulkInsert() error {
 	i := 0
 	for _, post := range unsavedRows {
 
-		valueStrings = append(valueStrings, fmt.Sprintf("($%d, $%d, $%d,$%d)", i*4+1, i*4+2, i*4+3, i*4+4))
-		valueArgs = append(valueArgs, post.Title)
-		valueArgs = append(valueArgs, strings.Join(post.Authors, ";"))
-		valueArgs = append(valueArgs, post.ISBN)
-		valueArgs = append(valueArgs, post.Description)
-		i++
+		if post.Title != "" {
+			valueStrings = append(valueStrings, fmt.Sprintf("($%d, $%d, $%d,$%d)", i*4+1, i*4+2, i*4+3, i*4+4))
+			valueArgs = append(valueArgs, post.Title)
+			valueArgs = append(valueArgs, strings.Join(post.Authors, ";"))
+			valueArgs = append(valueArgs, post.ISBN)
+			valueArgs = append(valueArgs, post.Description)
+			i++
+
+		}
+
 	}
 	stmt := fmt.Sprintf("INSERT INTO books (Title, Authors, ISBN, Description) VALUES %s", strings.Join(valueStrings, ","))
+
+	fmt.Println(stmt)
 	_, err = db.Exec(stmt, valueArgs...)
 	return err
 }

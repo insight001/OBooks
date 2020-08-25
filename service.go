@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -18,6 +19,7 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	val, err := strconv.Atoi(id)
 	responseData := data.GetBook(val)
+	fmt.Println(responseData)
 	b, err := json.Marshal(responseData)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
