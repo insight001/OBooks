@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-books-api
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: go-books-api
+  template:
+    metadata:
+      labels:
+        name: go-books-api
+    spec:
+      containers:
+      - name: application
+        image: insight/go-books-api
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 3000
