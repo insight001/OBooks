@@ -115,7 +115,7 @@ func GetBook(id int) BookData {
 
 	query := `Select id, title, authors, description, isbn from books where id=1;`
 
-	rows, err := db.Query(query)
+	rows := db.QueryRow(query)
 	fmt.Println(id)
 	if err != nil {
 		// Do something
@@ -139,8 +139,6 @@ func GetBook(id int) BookData {
 	fmt.Println(title)
 	book.Title = title
 
-	// get any error encountered during iteration
-	err = rows.Err()
 	if err != nil {
 		panic(err)
 	}
