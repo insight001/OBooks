@@ -82,13 +82,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 	}
 	defer rows.Close()
 
-	count := 0
-	for rows.Next() {
-		count = count + 1 //Get the count of the returned rows
-	}
-
-	fmt.Println("count:", count)
-	store := make([]BookData, count)
+	var store []BookData
 
 	for rows.Next() {
 		var book BookData
