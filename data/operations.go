@@ -69,9 +69,9 @@ func GetBooks(skip, limit int, search string) []BookData {
 		limit = 10
 	}
 
-	fmt.Println(limit)
-	fmt.Println(skip)
-	fmt.Println(search)
+	fmt.Println("limit:", limit)
+	fmt.Println("skip:", skip)
+	fmt.Println("search:", search)
 	query := `SELECT title,authors,isbn, description, id from books WHERE title LIKE '%' ||$1|| '%' offset $2 limit $3`
 
 	rows, err := db.Query(query, search, skip, limit)
@@ -87,7 +87,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 		count = count + 1 //Get the count of the returned rows
 	}
 
-	fmt.Println(count)
+	fmt.Println("count:", count)
 	store := make([]BookData, count)
 
 	for rows.Next() {
@@ -107,7 +107,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 		panic(err)
 	}
 	fmt.Println("getting books")
-	fmt.Println(store)
+	fmt.Println("store:", store)
 	return store
 }
 
