@@ -113,9 +113,9 @@ func GetBook(id int) BookData {
 	}
 	defer db.Close()
 
-	query := "Select * from books where id = $1"
+	query := "Select id, title, authors, description, isbn from books where id = $1"
 
-	rows, err := db.Query(query, id)
+	rows, err := db.Query(query, &id)
 
 	if err != nil {
 		// Do something
@@ -127,7 +127,7 @@ func GetBook(id int) BookData {
 
 	var bookID int
 	var title, authours, isbn, description string
-	err = rows.Scan(&title, &authours, &isbn, &description, &bookID)
+	err = rows.Scan(&bookID, &title, &authours, &description, &isbn)
 
 	book.Description = description
 	book.Authors = authours
