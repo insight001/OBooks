@@ -98,7 +98,7 @@ func GetBooks(skip, limit int, search string) []BookData {
 			// handle this error
 			panic(err)
 		}
-		fmt.Println(book.Description)
+		fmt.Println("Title:", book.Title)
 		store = append(store, book)
 	}
 	// get any error encountered during iteration
