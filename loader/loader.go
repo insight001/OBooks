@@ -33,7 +33,7 @@ type bookResponse struct {
 //Get returns the book
 func get() []BookData {
 	fmt.Println("1. Performing Http Get...")
-	resp, err := http.Get("https://learning.oreilly.com/api/v2/search/?fields=description&fields=title&fields=isbn&fields=authors&limit=1")
+	resp, err := http.Get("https://learning.oreilly.com/api/v2/search/?fields=description&fields=title&fields=isbn&fields=authors&limit=10")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -93,7 +93,7 @@ func BulkInsert() error {
 	valueArgs := make([]interface{}, 0, len(unsavedRows)*4)
 	i := 0
 	for _, post := range unsavedRows {
-
+		fmt.Println(post)
 		if post.Title != "" {
 			valueStrings = append(valueStrings, fmt.Sprintf("($%d, $%d, $%d,$%d)", i*4+1, i*4+2, i*4+3, i*4+4))
 			valueArgs = append(valueArgs, post.Title)
