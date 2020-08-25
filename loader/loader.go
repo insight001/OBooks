@@ -93,8 +93,9 @@ func BulkInsert() error {
 	valueArgs := make([]interface{}, 0, len(unsavedRows)*4)
 	i := 0
 	for _, post := range unsavedRows {
-		fmt.Println(post)
+
 		if post.Title != "" {
+			fmt.Println(post)
 			valueStrings = append(valueStrings, fmt.Sprintf("($%d, $%d, $%d,$%d)", i*4+1, i*4+2, i*4+3, i*4+4))
 			valueArgs = append(valueArgs, post.Title)
 			valueArgs = append(valueArgs, strings.Join(post.Authors, ";"))
