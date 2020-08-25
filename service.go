@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -10,6 +9,20 @@ import (
 
 	"github.com/insight001/OBooks/data"
 )
+
+//SingleAPIResponse ...
+type SingleAPIResponse struct {
+	Success bool          `json:"success"`
+	Message string        `json:"message"`
+	Data    data.BookData `json:"data"`
+}
+
+//ListAPIResponse ...
+type ListAPIResponse struct {
+	Success bool            `json:"success"`
+	Message string          `json:"message"`
+	Data    []data.BookData `json:"data"`
+}
 
 //GetBookByID ..
 func GetBookByID(w http.ResponseWriter, r *http.Request) {
@@ -19,8 +32,11 @@ func GetBookByID(w http.ResponseWriter, r *http.Request) {
 	id := params["id"]
 	val, err := strconv.Atoi(id)
 	responseData := data.GetBook(val)
-	fmt.Println(responseData)
-	b, err := json.Marshal(responseData)
+	var apiResponse SingleAPIResponse
+	apiResponse.Data = responseData
+	apiResponse.Success = true
+	apiResponse.Message = "Items retrieved successfully"
+	b, err := json.Marshal(apiResponse)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "error marshalling data"}`))
@@ -44,13 +60,18 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 	}
 
 	responseData := data.GetBooks(skip, limit, search)
-	b, err := json.Marshal(responseData)
+	var apiResponse ListAPIResponse
+	apiResponse.Data = responseData
+	apiResponse.Success = true
+	apiResponse.Message = "Items retrieved successfully"
+	b, err := json.Marshal(apiResponse)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte(`{"error": "error marshalling data"}`))
 		return
 	}
 	w.WriteHeader(http.StatusOK)
+
 	w.Write(b)
 	return
 
