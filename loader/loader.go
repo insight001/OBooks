@@ -37,7 +37,7 @@ func get() []BookData {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("Got here")
+
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 
