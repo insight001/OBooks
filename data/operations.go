@@ -39,6 +39,7 @@ type Books struct {
 //CreateBook ...
 func CreateBook(book *BookData) bool {
 
+	fmt.Println(book)
 	db, err := sql.Open("postgres", goDotEnvVariable())
 	if err != nil {
 		log.Fatal("Failed to open a DB connection: ", err)
